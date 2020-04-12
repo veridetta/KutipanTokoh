@@ -5,7 +5,15 @@
         android:icon="@drawable/home"
         android:title="Beranda" />
     <item
+        android:id="@+id/nav_fav"
+        android:icon="@drawable/nofav"
+        android:title="Favorit" />
+    <item
         android:id="@+id/nav_cari"
         android:icon="@drawable/search"
         android:title="Cari" />
+    <item
+        android:id="@+id/nav_kategori"
+        android:icon="@drawable/search"
+        android:title="Kategori" />
 </menu>

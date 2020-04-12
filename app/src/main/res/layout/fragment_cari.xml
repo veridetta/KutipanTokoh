@@ -1,84 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CariFragment">
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/_25sdp">
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:background="@color/blue_A700"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-                <EditText
-                    android:id="@+id/txt_cari"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_33sdp"
-                    android:padding="@dimen/_6sdp"
-                    android:hint="Cari Tokoh / Kata"
-                    android:textSize="@dimen/_13sdp"
-                    android:singleLine="true"
-                    android:background="@color/white" />
-                <Button
-                    android:layout_marginTop="@dimen/_6sdp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_cari"
-                    android:text="CARI "/>
-            </LinearLayout>
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:id="@+id/cari_keluar"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="@dimen/_6sdp"
-                android:orientation="vertical">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/cari_list"
-                    android:numColumns="2"
+                android:layout_height="wrap_content">
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:layout_weight="4"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-                <Button
-                    android:id="@+id/btn_banyak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    android:text="Lebih Banyak"
-                    android:padding="@dimen/_10sdp"
-                    android:background="@color/red_500"
-                    android:textColor="@color/white"/>
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_350sdp"
+                        android:minHeight="@dimen/_80sdp"
+                        android:background="@color/blue_400"
+                        android:padding="@dimen/_6sdp">
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_80sdp"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="@dimen/_50sdp"
+                                android:paddingRight="@dimen/_50sdp">
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/blue_400"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                                    <SearchView
+                                        android:id="@+id/txt_cari"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:iconifiedByDefault="false"
+                                        android:inputType="text"
+                                        android:maxLines="1" />
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </LinearLayout>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/_25sdp"
+                                android:layout_marginLeft="@dimen/_25sdp"
+                                android:background="@color/white"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardElevation="@dimen/_1sdp"
+                                app:cardMaxElevation="@dimen/_4sdp"
+                                app:cardCornerRadius="@dimen/_25sdp"
+                                app:cardUseCompatPadding="true"
+                                android:padding="@dimen/_10sdp">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="@dimen/_5sdp"
+                                    android:paddingRight="@dimen/_5sdp"
+                                    android:paddingTop="@dimen/_8sdp"
+                                    android:paddingBottom="@dimen/_8sdp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Cari"
+                                        android:textStyle="bold"
+                                        android:textSize="@dimen/_20sdp"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/cari_judul"
+                            android:layout_gravity="bottom"
+                            android:layout_margin="@dimen/_8sdp"
+                            android:layout_width="@dimen/_150sdp"
+                            android:layout_height="wrap_content"
+                            android:text="Masukkan kata untuk mulai mencari"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_18sdp"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:layout_marginTop="@dimen/_6sdp"
+                            android:layout_marginBottom="@dimen/_6sdp"
+                            android:background="@color/blue_400"/>
+                        <LinearLayout
+                            android:id="@+id/no_result"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_150sdp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_gravity="bottom"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:layout_width="@dimen/_150sdp"
+                                android:layout_height="wrap_content"
+                                android:text="Oops. .."
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_30sdp"/>
+                            <TextView
+                                android:layout_gravity="bottom"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:layout_width="@dimen/_150sdp"
+                                android:layout_height="wrap_content"
+                                android:text="Tidak ada hasil yang dapat kami temukan"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_16sdp"/>
+                            <TextView
+                                android:layout_gravity="bottom"
+                                android:layout_marginLeft="@dimen/_8sdp"
+                                android:layout_width="@dimen/_150sdp"
+                                android:layout_height="wrap_content"
+                                android:text="Silahkan cari dengan kata yang lain"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_14sdp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@color/white"
+                            android:padding="@dimen/_6sdp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="@dimen/_250sdp"
+                                android:id="@+id/rc_cari">
+                            </androidx.recyclerview.widget.RecyclerView>
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:id="@+id/ly_buton"
+                                android:paddingBottom="@dimen/_40sdp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/card_next"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:cardCornerRadius="@dimen/_20sdp"
+                                    app:cardUseCompatPadding="true"
+                                    app:cardBackgroundColor="@color/orange_200"
+                                    app:cardElevation="@dimen/_2sdp"
+                                    app:cardMaxElevation="@dimen/_4sdp">
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="@dimen/_12sdp">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="@dimen/_13sdp"
+                                            android:text="Lebih banyak"/>
+                                    </LinearLayout>
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ly_awal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/caribg"/>
-            </LinearLayout>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

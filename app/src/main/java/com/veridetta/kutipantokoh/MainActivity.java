@@ -2,35 +2,37 @@ package com.veridetta.kutipantokoh;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.veridetta.kutipantokoh.db.DBHelper;
 
-import static android.support.constraint.Constraints.TAG;
 
 public class MainActivity extends AppCompatActivity {
     private static int CODE_WRITE_SETTINGS_PERMISSION;
     private AdView mAdView;
+    Toolbar toolbar;
+    ActionBar actionBar;
+    DBHelper dbHelper;
     int io = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mAdView.loadAd(adRequest);
+        //actionBar = getSupportActionBar();
+        //actionBar.setTitle("");
     }
     private void loadFragment(Fragment fragment) {
         // load fragment
@@ -101,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_cari:
                     //mTopToolbar.setNavigationIcon(R.drawable.search);
                     fragment = new CariFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.nav_kategori:
+                    //mTopToolbar.setNavigationIcon(R.drawable.search);
+                    fragment = new KategoriFragment();
                     loadFragment(fragment);
                     return true;
             }
@@ -134,17 +143,17 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted1");
+                Log.v("MainActivity","Permission is granted1");
                 return true;
             } else {
 
-                Log.v(TAG,"Permission is revoked1");
+                Log.v("MainActivity","Permission is revoked1");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 3);
                 return false;
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted1");
+            Log.v("MainActivity","Permission is granted1");
             return true;
         }
     }
@@ -152,17 +161,17 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.v(TAG,"Permission is granted2");
+                Log.v("MainActivity","Permission is granted2");
                 return true;
             } else {
 
-                Log.v(TAG,"Permission is revoked2");
+                Log.v("MainActivity","Permission is revoked2");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
                 return false;
             }
         }
         else { //permission is automatically granted on sdk<23 upon installation
-            Log.v(TAG,"Permission is granted2");
+            Log.v("MainActivity","Permission is granted2");
             return true;
         }
     }
@@ -171,9 +180,9 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 2:
-                Log.d(TAG, "External storage2");
+                Log.d("MainActivity", "External storage2");
                 if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+                    Log.v("MainActivity","Permission: "+permissions[0]+ "was "+grantResults[0]);
                     //resume tasks needing this permission
                     loadFragment(new HomeFragment());
                     io++;
@@ -183,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 3:
-                Log.d(TAG, "External storage1");
+                Log.d("MainActivity", "External storage1");
                 if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+                    Log.v("MainActivity","Permission: "+permissions[0]+ "was "+grantResults[0]);
                     //resume tasks needing this permission
                     loadFragment(new HomeFragment());
                 }else{
@@ -199,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MainActivity.CODE_WRITE_SETTINGS_PERMISSION && Settings.System.canWrite(this)){
-            Log.d("TAG", "MainActivity.CODE_WRITE_SETTINGS_PERMISSION success");
+            Log.d("\"MainActivity\"", "MainActivity.CODE_WRITE_SETTINGS_PERMISSION success");
             //do your code
         }
     }

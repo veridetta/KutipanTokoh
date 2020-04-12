@@ -10,38 +10,26 @@ import android.content.ClipboardManager;
 import android.content.Context;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -50,15 +38,12 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import com.veridetta.kutipantokoh.R;
+import com.veridetta.kutipantokoh.db.DBHelper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static android.support.constraint.Constraints.TAG;
+
 
 
 public class
@@ -68,27 +53,31 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
     private ArrayList<String> kataList = new ArrayList<>();
     private ArrayList<String> photoList = new ArrayList<>();
     private ArrayList<String> ketList = new ArrayList<>();
+    private ArrayList<String> idList = new ArrayList<>();
     private Activity mActivity;
     Intent intent;
-
+    DBHelper helper;
+    int success=0, favoritStatus=0, total;
     String dx;
     private Context context;
     private int lastPosition = -1;
     Bitmap  bitmap;
-    public CardAdapter(ArrayList<String> tokohList,
+    public CardAdapter(Context context,ArrayList<String> tokohList,
                        ArrayList<String> kataList,
                        ArrayList<String> photoList,
-                       ArrayList<String> ketList) {
+                       ArrayList<String> ketList,ArrayList<String> idList) {
 
         this.tokohList = tokohList;
         this.kataList = kataList;
         this.photoList = photoList;
         this.ketList = ketList;
+        this.idList = idList;
+        this.context = context;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView txtTokoh, txtKet, txtKata;
-        ImageView photoTokoh, copy, share;
+        ImageView photoTokoh, copy, share, download, favB, img_img;
         CardView cardBaru;
         LinearLayout bg;
         public MyViewHolder(View view) {
@@ -101,6 +90,9 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
             photoTokoh = view.findViewById(R.id.profile_img);
             copy = view.findViewById(R.id.img_copy);
             share = view.findViewById(R.id.img_share);
+            download = view.findViewById(R.id.download);
+            favB = view.findViewById(R.id.fav);
+            img_img = view.findViewById(R.id.bg_img_img);
         }
     }
 
@@ -122,9 +114,57 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         holder.photoTokoh.setImageDrawable(resource);
-                        holder.bg.setBackground(holder.photoTokoh.getDrawable());
+                        //holder.bg.setBackground(holder.photoTokoh.getDrawable());
+                        holder.img_img.setImageDrawable(resource);
                     }
                 });
+        helper = new DBHelper(context);
+        success = helper.cekFav(idList.get(position));
+        if(success>0){
+            Glide.with(holder.favB)
+                    .load(context.getResources()
+                            .getIdentifier("fav", "drawable", context.getPackageName()))
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            holder.favB.setImageDrawable(resource);
+                        }
+                    });
+            favoritStatus=1;
+        }
+        holder.favB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(favoritStatus>0){
+                    Glide.with(holder.favB)
+                            .load(context.getResources()
+                                    .getIdentifier("nofav", "drawable", context.getPackageName()))
+                            .into(new SimpleTarget<Drawable>() {
+                                @Override
+                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                    holder.favB.setImageDrawable(resource);
+                                }
+                            });
+                    helper.deletDB(idList.get(position));
+                    favoritStatus=0;
+                }else{
+                    Glide.with(holder.favB)
+                            .load(context.getResources()
+                                    .getIdentifier("fav", "drawable", context.getPackageName()))
+                            .into(new SimpleTarget<Drawable>() {
+                                @Override
+                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                    holder.favB.setImageDrawable(resource);
+                                }
+                            });
+                    helper.insertIntoDB(1,tokohList.get(position),
+                            photoList.get(position),idList.get(position),
+                            kataList.get(position),ketList.get(position),"1",
+                            "","");
+                    favoritStatus=1;
+                }
+            }
+        });
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,13 +200,13 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
                 // Get clipboard manager object.
                 Object clipboardService = v.getContext().getSystemService(CLIPBOARD_SERVICE);
                 final ClipboardManager clipboardManager = (ClipboardManager)clipboardService;
-                String srcText = holder.txtKata.getText().toString()+" - "+holder.txtTokoh.getText().toString();
+                String srcText = holder.txtKata.getText().toString()+" - "+holder.txtTokoh.getText().toString()+"\n"+"Download aplikasi ini secara gratis " + "https://play.google.com/store/apps/details?id=" +v.getContext().getPackageName();
                 // Create a new ClipData.
                 ClipData clipData = ClipData.newPlainText("Source Text", srcText);
                 // Set it as primary clip data to copy text to system clipboard.
                 clipboardManager.setPrimaryClip(clipData);
                 // Popup a snackbar.
-                Snackbar snackbar = Snackbar.make(v, "Source text has been copied to system clipboard.", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(v, "Kutipan berhasil di salin.", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });
