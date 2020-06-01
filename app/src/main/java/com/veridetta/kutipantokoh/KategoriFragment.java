@@ -205,7 +205,7 @@ public class KategoriFragment extends Fragment implements View.OnClickListener{
             }
 
             // Using Elements to get the Meta data
-            Elements mElementDataSize = mBlogPagination.select("ul[id=citatenrijen] li:not(.google-auto-placed)");
+            Elements mElementDataSize = mBlogPagination.select("ul[id=citatenrijen] li:not(#googleinpage)");
             Elements mPageSize = mBlogPagination.select("div[class=pageslist pageslist-right] a");
             // Locate the content attribute
             int mElementSize = mElementDataSize.size();
@@ -219,7 +219,7 @@ public class KategoriFragment extends Fragment implements View.OnClickListener{
                 Elements elKet = mElementDataSize.select("span.auteur-beschrijving").eq(i);
                 String ket = elKet.text().trim();
                 //STATUS
-                Elements elKata = mElementDataSize.select("p.fbquote").eq(i);
+                Elements elKata = mElementDataSize.select("q.fbquote").eq(i);
                 String kata = elKata.text().trim();
                 idKataString=mElementDataSize.eq(i).attr("id");
                 card_Tokoh.add(Nama);

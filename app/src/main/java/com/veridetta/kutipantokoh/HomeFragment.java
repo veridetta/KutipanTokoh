@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +110,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
 
             // Using Elements to get the Meta data
-            Elements mElementDataSize = mBlogPagination.select("ul[id=citatenrijen] li:not(.google-auto-placed)");
+            Elements mElementDataSize = mBlogPagination.select("ul[id=citatenrijen] li:not(#googleinpage)");
             // Locate the content attribute
             int mElementSize = mElementDataSize.size();
             for (int i = 0; i < mElementSize; i++) {
@@ -121,9 +122,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 String gambara = elGambar.select("img").eq(0).attr("src");
                 Elements elKet = mElementDataSize.select("span.auteur-beschrijving").eq(i);
                 String ket = elKet.text().trim();
+
                 //STATUS
-                Elements elKata = mElementDataSize.select("p.fbquote").eq(i);
+                Elements elKata = mElementDataSize.select("q.fbquote").eq(i);
                 String kata = elKata.text().trim();
+                System.out.println("Kata "+kata);
+                Log.d("HOME", "doInBackground: "+kata);
                 idKataString=mElementDataSize.eq(i).attr("id");
                 card_Tokoh.add(Nama);
                 card_gambar.add(gambara);

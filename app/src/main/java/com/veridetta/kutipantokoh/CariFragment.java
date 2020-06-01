@@ -168,7 +168,7 @@ public class CariFragment extends Fragment implements View.OnClickListener{
                     Elements elKet = mElementDataSize.select("span.auteur-beschrijving").eq(i);
                     String ket = elKet.text().trim();
                     //STATUS
-                    Elements elKata = mElementDataSize.select("p.fbquote").eq(i);
+                    Elements elKata = mElementDataSize.select("q.fbquote").eq(i);
                     String kata = elKata.text().trim();
                     String idKata = mElementDataSize.eq(i).attr("id");
                     card_Tokoh.add(Nama);
