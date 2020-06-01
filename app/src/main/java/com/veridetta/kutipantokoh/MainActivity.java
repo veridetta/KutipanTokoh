@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ActionBar actionBar;
     DBHelper dbHelper;
+    boolean doubleBackToExitPressedOnce = false;
     int io = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +42,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        /*
         if (TextUtils.isEmpty(getString(R.string.banner_home_footer))) {
             Toast.makeText(getApplicationContext(), "Please mention your Banner Ad ID in strings.xml", Toast.LENGTH_LONG).show();
             return;
         }
+        */
         isWriteStoragePermissionGranted();
         isReadStoragePermissionGranted();
         if(isReadStoragePermissionGranted() && isWriteStoragePermissionGranted()){
             loadFragment(new HomeFragment());
         }
-        mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
+
+        //mAdView = (AdView) findViewById(R.id.adView);
+        /* AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 // Check the LogCat to get your test device ID
                 .addTestDevice("725F7196D12AFC68048ED82BD5C6F3A8")
@@ -80,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onAdOpened();
             }
         });
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest); */
         //actionBar = getSupportActionBar();
         //actionBar.setTitle("");
     }
@@ -107,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new CariFragment();
                     loadFragment(fragment);
                     return true;
+                case R.id.nav_fav:
+                    //mTopToolbar.setNavigationIcon(R.drawable.search);
+                    fragment = new FavFragment();
+                    loadFragment(fragment);
+                    return true;
                 case R.id.nav_kategori:
                     //mTopToolbar.setNavigationIcon(R.drawable.search);
                     fragment = new KategoriFragment();
@@ -118,25 +128,25 @@ public class MainActivity extends AppCompatActivity {
     };
     @Override
     public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-        }
+       // if (mAdView != null) {
+        //    mAdView.pause();
+        //}
         super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-        }
+        //if (mAdView != null) {
+        //    mAdView.resume();
+       // }
     }
 
     @Override
     public void onDestroy() {
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
+       // if (mAdView != null) {
+       //     mAdView.destroy();
+       // }
         super.onDestroy();
     }
     public  boolean isReadStoragePermissionGranted() {
@@ -212,5 +222,23 @@ public class MainActivity extends AppCompatActivity {
             //do your code
         }
     }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finish();
+            super.onBackPressed();
+            return;
+        }
 
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 }
