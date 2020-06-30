@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Kutipan Tokoh</string>
-    <!--admob
-    <string name="admob_app_id">ca-app-pub-8115077367977521~3272999943</string>
+    <string name="admob_app_id">ca-app-pub-3827527180173943~4039500638</string>
+    <string name="banner_home_footer">ca-app-pub-3827527180173943/2646280490/</string>
+    <!--admob test
+    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="banner_home_footer">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_full_screen">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="rewarded_video">ca-app-pub-3940256099942544/5224354917</string> -->
+     -->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

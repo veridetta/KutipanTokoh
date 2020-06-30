@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.google.android.gms.internal.zzahn.runOnUiThread;
+//import static com.google.android.gms.internal.zzahn.runOnUiThread;
 
 
 public class KategoriFragment extends Fragment implements View.OnClickListener{
@@ -156,7 +156,7 @@ public class KategoriFragment extends Fragment implements View.OnClickListener{
 
     }
     private void setVisibility(final LinearLayout linearLayout, final String status){
-        runOnUiThread(new Runnable(){
+        getActivity().runOnUiThread(new Runnable(){
             @Override
             public void run(){
                 if(status.equals("hide")){

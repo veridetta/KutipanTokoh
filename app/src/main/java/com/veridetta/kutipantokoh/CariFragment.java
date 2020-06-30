@@ -31,7 +31,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.google.android.gms.internal.zzahn.runOnUiThread;
+//import static com.google.android.gms.internal.zzahn.runOnUiThread;
 
 
 public class CariFragment extends Fragment implements View.OnClickListener{
@@ -134,7 +134,7 @@ public class CariFragment extends Fragment implements View.OnClickListener{
         return dp * (context.getResources().getDisplayMetrics().density);
     }
     private void setVisibility(final LinearLayout linearLayout, final String status){
-        runOnUiThread(new Runnable(){
+        getActivity().runOnUiThread(new Runnable(){
             @Override
             public void run(){
                 if(status.equals("hide")){

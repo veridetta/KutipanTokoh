@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.android.gms.internal.zzahn.runOnUiThread;
+//import static com.google.android.gms.internal.zzahn.runOnUiThread;
 
 
 public class FavFragment extends Fragment implements View.OnClickListener{

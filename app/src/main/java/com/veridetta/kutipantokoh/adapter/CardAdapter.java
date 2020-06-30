@@ -28,6 +28,7 @@ import androidx.core.content.FileProvider;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +88,8 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTokoh, txtKet, txtKata;
-        ImageView photoTokoh, copy, share, download, favB, img_img;
+        TextView txtTokoh, txtKet, txtKata,photoTokoh;
+        ImageView  copy, share, download, favB, img_img;
         CardView cardBaru;
         LinearLayout bg;
         public MyViewHolder(View view) {
@@ -98,7 +99,7 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
             txtKet = (TextView) view.findViewById(R.id.keterangan_tokoh);
             txtKata = (TextView) view.findViewById(R.id.txt_kata);
             cardBaru = (CardView) view.findViewById(R.id.card_kata);
-            photoTokoh = view.findViewById(R.id.profile_img);
+            photoTokoh = view.findViewById(R.id.nama_pp);
             copy = view.findViewById(R.id.img_copy);
             share = view.findViewById(R.id.img_share);
             download = view.findViewById(R.id.download);
@@ -119,16 +120,9 @@ CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
         holder.txtTokoh.setText(tokohList.get(position));
         holder.txtKet.setText(ketList.get(position));
         holder.txtKata.setText(kataList.get(position));
-        Glide.with(holder.photoTokoh.getContext())
-                .load(Uri.parse(photoList.get(position)))
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        holder.photoTokoh.setImageDrawable(resource);
-                        //holder.bg.setBackground(holder.photoTokoh.getDrawable());
-                        holder.img_img.setImageDrawable(resource);
-                    }
-                });
+        String pptoko= String.valueOf(tokohList.get(position).toUpperCase().charAt(0));
+        holder.photoTokoh.setText(pptoko);
+        Log.d("Adapter", "onBindViewHolder: "+photoList.get(position).charAt(0));
         helper = new DBHelper(context);
         success = helper.cekFav(idList.get(position));
         if(success>0){
